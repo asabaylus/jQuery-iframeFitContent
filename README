@@ -1,0 +1,29 @@
+iframeResizeFix jQuery Plugin v1.0.0
+-------------------------------
+Copyright (c) 2010 Asa Baylus. Licensed under the MIT license.
+ 
+
+Overview
+--------
+
+A jQuery plugin which automatically sets the height of your iframes to match the iframes contents 
+
+Features include:
+	- jQuery-style instantiation
+	- jQuery-style event handling
+	- Ability to add extra bottom padding to your iframes
+	- Hide the iframe until iframe content has loaded
+	
+IMPORTANT NOTE!!!
+This plugin will not overcome the same origin browser policy domain restrictions.
+
+For IE6 you must set the iframe attribute for scrolling="no"
+
+Usage
+-----
+
+// apply the height fix
+$("iframe").iframeResizeFix();
+
+// apply the height fix with some extra padding on the bottom of the iframe (you shouldn't need this)
+$("iframe").iframeResizeFix({ padding : '30' });
