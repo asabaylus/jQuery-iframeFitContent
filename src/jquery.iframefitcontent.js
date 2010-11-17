@@ -27,7 +27,7 @@
 
 (function ($) {
 	$.fn.extend({
-		iframeResizeFix: function (options) {			
+		iframeFitContent: function (options) {			
 					
 					var defaults = {padding: 0}, now = new Date(), shim = "shim" + now.getTime().toString();
 					

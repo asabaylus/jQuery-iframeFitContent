@@ -23,7 +23,7 @@ Usage
 -----
 
 // apply the height fix
-$("iframe").iframeResizeFix();
+$("iframe").iframeFitContent();
 
 // apply the height fix with some extra padding on the bottom of the iframe (you shouldn't need this)
-$("iframe").iframeResizeFix({ padding : '30' });
+$("iframe").iframeFitContent({ padding : '30' });
