@@ -84,7 +84,7 @@
 								  
 
 								// set height to wrapper + margins top & bot + border height + extra padding
-								$iframe.height($iframeContent.outerHeight(true)) 
+								$iframe.height($iframeContent.outerHeight(true)+opt.padding) 
 								
 																
 								// show the iframe when finished
