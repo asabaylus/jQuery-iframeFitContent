@@ -42,7 +42,7 @@
 								
 								// hide the iframe until it loaded to avoid the height pop
 								// set overflow hidden to fix IE6 display issues wich result in extra margin
-								$iframe.css({visibility: "hidden", overflow: "hidden"});
+								$iframe.css({visibility: "hidden"});
 						
 								// create vars
 								var  $iframeContent, $iframeWrapper, marginTop, marginBottom, marginLeft, marginRight;
@@ -82,14 +82,35 @@
 									'padding-right' : marginRight						  
 								});   
 								  
-
 								// set height to wrapper + margins top & bot + border height + extra padding
 								$iframe.height($iframeContent.outerHeight(true)+opt.padding) 
 								
+								// now do the width
+								//.width($iframeContent.outerWidth(true)+opt.padding)
 																
 								// show the iframe when finished
 								.css("visibility", "visible");	
-			
+								
+								console.log($iframeContent.outerWidth(true)+opt.padding );
+								
+								var i=0, y=0;
+								var $iframeChildren = $iframeContent.find("> :first").children();
+								
+								$iframeChildren.each(function(){
+								
+									i++;
+									
+									var x = $(this).outerWidth(true)
+									
+									if (x>y){
+										y = x;
+									}
+									
+								});
+								
+								$iframe.width(y+opt.padding);
+								
+						
 							}
 
 						$(this).bind("load", setHeight);
