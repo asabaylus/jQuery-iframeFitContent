@@ -1,17 +1,41 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-
 		<title>iFrame Demo</title>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+		<script type="text/javascript" src="/prod/js/lib/jquery/jquery-1.4.3.min.js"></script>
 		<script type="text/javascript" src="../src/jquery.iframefitcontent.js"></script>
 		<script type="text/javascript">
+			// sample iframeFitContent plugin usage
 			$(document).ready(function(){
 					$("#myframe").iframeFitContent();			
 			})
 		</script>
+		<script type="text/javascript">
+		
+			// sample code illustrating common technique for iframe height auto resize
+			function changeHeight(iframe)
+		      {
+		        try
+		        {
+		          var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+		          if (innerDoc.body.offsetHeight) //ns6 syntax
+		          {
+		             iframe.height = innerDoc.body.offsetHeight + 32; //Extra height FireFox
+		          }
+		          else if (iframe.Document && iframe.Document.body.scrollHeight) //ie5+ syntax
+		          {
+		             iframe.height = iframe.Document.body.scrollHeight;
+		          }
+		        }
+		        catch(err)
+		        {
+		          alert(err.message);
+		        }
+		      }
+		</script>
 	</head>
 	<body>
-		<iframe id="myframe" src="sample-content_1.html" frameborder="0" style="border:6px solid;" scrolling="no" ></iframe>
+		<iframe id="myframe" src="sample-content_1.html" frameborder="0" style="border:6px solid;" scrolling="no"></iframe>
+		<iframe id="myframe2" onload="changeHeight(this);" src="sample-content_1.html" frameborder="0" style="border:6px solid;" scrolling="no"></iframe>
 	</body>
 </html>
