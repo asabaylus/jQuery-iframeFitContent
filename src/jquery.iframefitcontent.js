@@ -29,7 +29,7 @@
 	$.fn.extend({
 		iframeFitContent: function (options) {			
 					
-					var defaults = {padding: 0}, now = new Date(), shim = "shim" + now.getTime().toString();
+					var defaults = {padding: 0}, now = new Date();
 					
 					options = $.extend(defaults, options);
 					
@@ -39,37 +39,29 @@
 					
 						function setHeight() {
 								
+								
 								// hide the iframe until it loaded to avoid the height pop
 								// set overflow hidden to fix IE6 display issues wich result in extra margin
 								$iframe.css({visibility: "hidden", overflow: "hidden"});
 						
 								// create vars
-								var  $iframeContent, $iframeWrapper, marginTop, marginBottom, marginLeft, marginRight, borderTop, borderBottom, borderHeight, ieMarginBottom;
+								var  $iframeContent, $iframeWrapper, marginTop, marginBottom, marginLeft, marginRight;
 						
 								// get iframe contents
 								$iframeContent = $iframe.contents().find("body");
 								
-								// wrap the page content in a div
-								$iframeContent.children().wrapAll("<div id='iframeWrapper'></div>");
+								
+								// wrap the page content in a div with a unique ID
+								$iframeContent.children().wrapAll("<div id='iframeWrapper" + now.getTime().toString() + "'></div>");
 								
 								// cache the wrapper
-								$iframeWrapper = $iframeContent.find("#iframeWrapper");
+								$iframeWrapper = $iframeContent.find("#iframeWrapper" + now.getTime().toString());
 								
 								// copy the margins from the body onto the div
 								marginTop = $iframeContent.css("margin-top");
 								marginBottom = $iframeContent.css("margin-bottom");
 								marginLeft = $iframeContent.css("margin-left");
 								marginRight = $iframeContent.css("margin-right");
-								borderTop = $iframeContent.css("border-top-width");
-								borderBottom = $iframeContent.css("border-bottom-width");
-								borderHeight = $iframeWrapper.append("<div id='" + shim + "'></div>").find('#' + shim).css({
-									'margin-top' : borderTop,
-									'margin-bottom' : borderBottom,
-									'position' : 'absolute',
-									'width' : '1px',
-									'height' : '1px',
-									'visibility' : 'hidden'
-								}).outerHeight(true) - 1;
 								
 								
 								// remove margins from the iframe > body 
@@ -81,31 +73,23 @@
 								});
 								
 								
-								// add those margins to the padding of the wrapper
-								// use padding for IE6  
+								// after we calc the trueHeight add those margins to the padding of the wrapper
+								// use padding for IE6 or we end up with too much height
 								$iframeWrapper.css({
 									'padding-top' : marginTop,
 									'padding-bottom' : marginBottom,	
 									'padding-left' : marginLeft,
 									'padding-right' : marginRight						  
-								}); 
+								});   
 								  
-								// because IE6 sucks remove an extra 15 pixels from the calucalated height  
-								if (jQuery.browser.msie && jQuery.browser.version <= 6) {
-									ieMarginBottom = 15;
-								} else {
-									ieMarginBottom = 0;
-								}
-								  
+
 								// set height to wrapper + margins top & bot + border height + extra padding
-								$iframe.height($iframeWrapper.outerHeight(true) + borderHeight + Number(opt.padding) - ieMarginBottom)
+								$iframe.height($iframeContent.outerHeight(true)) 
 								
-								
+																
 								// show the iframe when finished
-								.css({visibility: "visible"});	
-								
-								
-	
+								.css("visibility", "visible");	
+			
 							}
 
 						$(this).bind("load", setHeight);
