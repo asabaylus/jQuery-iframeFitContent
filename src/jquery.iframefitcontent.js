@@ -94,7 +94,7 @@
 								console.log($iframeContent.outerWidth(true)+opt.padding );
 								console.log($iframe.get()[0].scrollWidth);
 								
-								/*git stash test*/
+								
 								
 								var i=0, y=0;
 								var $iframeChildren = $iframeContent.find("> :first").contents();
