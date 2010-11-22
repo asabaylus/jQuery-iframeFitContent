@@ -17,7 +17,6 @@ Features include:
 IMPORTANT NOTE!!!
 This plugin will not overcome the same origin browser policy domain restrictions.
 
-For IE6 you must set the iframe attribute for scrolling="no"
 
 Usage
 -----
