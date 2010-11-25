@@ -29,7 +29,10 @@
 	$.fn.extend({
 		iframeFitContent: function (options) {			
 					
-					var defaults = {padding: 0}, now = new Date();
+					var defaults = {
+							resize: 'both' // sets which dimensions to resize: height, width or both
+						}, 
+							now = new Date();
 					
 					options = $.extend(defaults, options);
 					
@@ -37,15 +40,16 @@
 		            
 						var $iframe = $(this), opt = options;
 					
-						function setHeight() {
+						function resizeiframe() {
 								
 								
 								// hide the iframe until it loaded to avoid the height pop
 								// set overflow hidden to fix IE6 display issues wich result in extra margin
-								$iframe.css({visibility: "hidden"}).attr("scrolling", "no");
+								$iframe.css({visibility: "hidden"});
 						
 								// create vars
-								var  $iframeContent, $iframeWrapper, marginTop, marginBottom, marginLeft, marginRight;
+								var $iframeContent, 
+									$iframeWrapper;
 						
 								// get iframe contents
 								$iframeContent = $iframe.contents().find("body");
@@ -57,64 +61,72 @@
 								// cache the wrapper
 								$iframeWrapper = $iframeContent.find("#iframeWrapper" + now.getTime().toString());
 								
-								// copy the margins from the body onto the div
-								marginTop = $iframeContent.css("margin-top");
-								marginBottom = $iframeContent.css("margin-bottom");
-								marginLeft = $iframeContent.css("margin-left");
-								marginRight = $iframeContent.css("margin-right");
-								
+								// copy the margins and borders from the body onto the wrapper div
+								// convert margins to padding for IE6 or we end up with too much height
+								$iframeWrapper.css({
+									'padding-top' : $iframeContent.css("margin-top"),
+									'padding-bottom' : $iframeContent.css("margin-bottom"),	
+									'padding-left' : $iframeContent.css("margin-left"),
+									'padding-right' : $iframeContent.css("margin-right"),
+									'border-left-width' : $iframeContent.css("border-left-width"),
+									'border-right-width' : $iframeContent.css("border-right-width"),
+									'border-top-width' : $iframeContent.css("border-top-width"),
+									'border-bottom-width' : $iframeContent.css("border-bottom-width"),
+									'border-left-style' : $iframeContent.css("border-left-style"),
+									'border-right-style' : $iframeContent.css("border-right-style"),
+									'border-top-style' : $iframeContent.css("border-top-style"),
+									'border-bottom-style' : $iframeContent.css("border-bottom-style"),
+									'border-left-color' : $iframeContent.css("border-left-color"),
+									'border-right-color' : $iframeContent.css("border-right-color"),
+									'border-top-color' : $iframeContent.css("border-top-color"),
+									'border-bottom-color' : $iframeContent.css("border-bottom-color"),
+									'position' : 'absolute',
+									'height' : 'auto',
+									'width' : 'auto'				  
+								});
 								
 								// remove margins from the iframe > body 
 								$iframeContent.css({
+									'border' : 'none',
 									'margin-top' : '0',
 									'margin-bottom' : '0',
 									'margin-left' : '0',
 									'margin-right' : '0'
 								});
 								
+								// if resize is set then apply new size to the correct dimensions then
+								// set height and width to wrapper + margins top & bot + border height + extra padding												
+								if (opt.resize !== 'width') {
+									$iframe.height($iframeWrapper.outerHeight(true));
+								}
 								
-								// after we calc the trueHeight add those margins to the padding of the wrapper
-								// use padding for IE6 or we end up with too much height
+								if (opt.resize !== 'height') {
+									$iframe.width($iframeWrapper.outerWidth(true));
+								}
+								
+								
+								// set the wrapper back to relative or we'll lose wrapping
+								// add zoom to fix IE6 has layout bug
 								$iframeWrapper.css({
-									'padding-top' : marginTop,
-									'padding-bottom' : marginBottom,	
-									'padding-left' : marginLeft,
-									'padding-right' : marginRight			  
-								});   
-								  
-
-								// set height to wrapper + margins top & bot + border height + extra padding
-								$iframe.height($iframeContent.outerHeight(true)+opt.padding) 
-																
+									'position' : 'relative',
+									'zoom' : '1'	  
+								});  
+								
 								// show the iframe when finished
-								.css("visibility", "visible");	
+								$iframe.css("visibility", "visible");	
 								
-								console.log($iframeContent.width());
-								console.log($iframeContent);	
-								console.log($iframeContent.outerWidth(true)+opt.padding );
-								console.log($iframe.get()[0].scrollWidth);
-								
-								var i=0, y=0;
-								var $iframeChildren = $iframeContent.find("> :first").contents();
-								
-								$iframeChildren.each(function(){
-								
-									i++;
-									
-									var x = $(this).outerWidth(true)
-									
-									if (x>y){
-										y = x;
-									}
-									
-								});
 							}
 
-						$(this).bind("load", setHeight);
+						$(this).bind("load", resizeiframe);
 						
 					});
+					
+					
 				}
 		
 	});
 	
 })(jQuery);
+
+
+

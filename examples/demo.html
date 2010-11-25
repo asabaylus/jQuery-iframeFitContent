@@ -1,15 +1,39 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>iFrame Demo</title>
+		<title>iframeFitContent Plugin Demo</title>
 		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/reset-fonts-grids/reset-fonts-grids.css">
 		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/base/base-min.css">
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 		<script type="text/javascript" src="../src/jquery.iframefitcontent.js"></script>
+		
 		<script type="text/javascript">
+			// sample iframeFitContent plugin usage
 			$(document).ready(function(){
-					$("#myframe").iframeFitContent();			
+					$("#myframe").iframeFitContent({resize:'both', padding: 102});			
 			})
+		</script>
+		<script type="text/javascript">
+			// sample code illustrating common technique for iframe height auto resize
+			function changeHeight(iframe)
+		      {
+		        try
+		        {
+		          var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+		          if (innerDoc.body.offsetHeight) //ns6 syntax
+		          {
+		             iframe.height = innerDoc.body.offsetHeight + 32; //Extra height FireFox
+		          }
+		          else if (iframe.Document && iframe.Document.body.scrollHeight) //ie5+ syntax
+		          {
+		             iframe.height = iframe.Document.body.scrollHeight;
+		          }
+		        }
+		        catch(err)
+		        {
+		          alert(err.message);
+		        }
+		      }
 		</script>
 	</head>
 	<body>
@@ -19,16 +43,14 @@
 		    <div class="yui-g"> 
 		    <div class="yui-u first"> 
 		    	<h2>jQuery iframeContentFit(); sample</h2>
-		    	<iframe id="myframe" src="sample-content_1.html" frameborder="0" style="border:6px solid;"></iframe>
-		    	<p></p>
+		    	<iframe id="myframe" src="sample-content_1.html" frameborder="0" style="border:6px solid;" scrolling="no"></iframe>
 		    </div> 
 		    <div class="yui-u"> 
 		    	<h2>Typical Javascript iframe script sample</h2>
-		    	<iframe id="myframe2" onload="changeHeight(this);" src="sample-content_1.html" frameborder="0" style="border:6px solid;"></iframe>
+		    	<iframe id="myframe2" onload="changeHeight(this);" src="sample-content_1.html" frameborder="0" style="border:6px solid;" scrolling="no"></iframe>
 		    </div> 
-		</div> 
-		 
-		    </div> 
+			</div> 		 
+	 	   </div> 
 		   <div id="ft"><p><a href="http://www.baylus.com/iframefitcontent-a-jquery-plugin/">Plugin Documentation</a></p></p></div> 
 		</div> 
 	</body>

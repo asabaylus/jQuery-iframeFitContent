@@ -1,4 +1,4 @@
-iframeResizeFix jQuery Plugin v1.0.0
+iframeFitContent jQuery Plugin v1.0.0
 -------------------------------
 Copyright (c) 2010 Asa Baylus. Licensed under the MIT license.
  
@@ -17,6 +17,9 @@ Features include:
 IMPORTANT NOTE!!!
 This plugin will not overcome the same origin browser policy domain restrictions.
 
+For IE6 you must set the iframe attribute for scrolling="no"
+IE 6 will leave a small border to the right and bottom between the body and the iframe
+
 
 Usage
 -----
@@ -24,5 +27,12 @@ Usage
 // apply the height fix
 $("iframe").iframeFitContent();
 
-// apply the height fix with some extra padding on the bottom of the iframe (you shouldn't need this)
-$("iframe").iframeFitContent({ padding : '30' });
+The resize may now be applied to height, width or both. Both is the default
+$("iframe").iframeFitContent({ resize : 'height' });
+$("iframe").iframeFitContent({ resize : 'width' });
+$("iframe").iframeFitContent({ resize : 'both' });
+
+If a height or width attribute has been set on the iframe then the iframeFitConent plugin resize
+will be ignored in favor of the attributes dimension.
+
+Support for "padding" has been removed from he plugin options as it is not needed.
