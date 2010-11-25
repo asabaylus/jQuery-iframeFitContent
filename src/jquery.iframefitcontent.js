@@ -108,10 +108,7 @@
 									}
 									
 								});
-								// console.log(y);
-								// $iframe.width(y+opt.padding)
-								
-															}
+							}
 
 						$(this).bind("load", setHeight);
 						
