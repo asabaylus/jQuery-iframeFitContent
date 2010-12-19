@@ -51,8 +51,6 @@
 									marginBottom, 
 									marginLeft, 
 									marginRight,
-									originalHeight = $iframe.height(),
-									originalWidth = $iframe.width(),
 									i=0, 
 									y=0, 
 									$iframeChildren, 
@@ -69,23 +67,33 @@
 								// cache the wrapper
 								$iframeWrapper = $iframeContent.find("#iframeWrapper" + now.getTime().toString());
 								
-								// copy the margins from the body onto the div
-								marginTop = $iframeContent.css("margin-top");
-								marginBottom = $iframeContent.css("margin-bottom");
-								marginLeft = $iframeContent.css("margin-left");
-								marginRight = $iframeContent.css("margin-right");
-								
-								// after we calc the trueHeight add those margins to the padding of the wrapper
-								// use padding for IE6 or we end up with too much height
+								// copy the margins and borders from the body onto the wrapper div
+								// convert margins to padding for IE6 or we end up with too much height
 								$iframeWrapper.css({
-									'padding-top' : marginTop,
-									'padding-bottom' : marginBottom,	
-									'padding-left' : marginLeft,
-									'padding-right' : marginRight
+									'padding-top' : $iframeContent.css("margin-top"),
+									'padding-bottom' : $iframeContent.css("margin-bottom"),	
+									'padding-left' : $iframeContent.css("margin-left"),
+									'padding-right' : $iframeContent.css("margin-right"),
+									'border-left-width' : $iframeContent.css("border-left-width"),
+									'border-right-width' : $iframeContent.css("border-right-width"),
+									'border-top-width' : $iframeContent.css("border-top-width"),
+									'border-bottom-width' : $iframeContent.css("border-bottom-width"),
+									'border-left-style' : $iframeContent.css("border-left-style"),
+									'border-right-style' : $iframeContent.css("border-right-style"),
+									'border-top-style' : $iframeContent.css("border-top-style"),
+									'border-bottom-style' : $iframeContent.css("border-bottom-style"),
+									'border-left-color' : $iframeContent.css("border-left-color"),
+									'border-right-color' : $iframeContent.css("border-right-color"),
+									'border-top-color' : $iframeContent.css("border-top-color"),
+									'border-bottom-color' : $iframeContent.css("border-bottom-color"),
+									'position' : 'absolute',
+									'height' : 'auto',
+									'width' : 'auto'				  
 								});
 								
 								// remove margins from the iframe > body 
 								$iframeContent.css({
+									'border' : 'none',
 									'margin-top' : '0',
 									'margin-bottom' : '0',
 									'margin-left' : '0',
@@ -93,28 +101,11 @@
 								});
 								
 								
-								
-								// set height to wrapper + margins top & bot + border height + extra padding	
-								$iframe.height($iframeContent.outerHeight(true) + opt.padding); 
-								
-								// after we calc the trueHeight add set the wrapper to absolute
-								// this'll prep a div from which the true width is obtained
-								$iframeWrapper.css({
-									'position' : 'absolute',
-									'height' : 'auto',
-									'width' : 'auto'				  
-								});   
-											
-								
-								// now do the width except width is bugged so work around the issues, 
-								//$iframe.width($iframeContent.outerWidth(true)+opt.padding);
-								iframeContentBorderLeft  = parseInt($iframeContent.css("border-left-width"));
-								iframeContentBorderRight  = parseInt($iframeContent.css("border-right-width"));	
-								$iframe.width($iframeWrapper.outerWidth() + opt.padding + iframeContentBorderLeft + iframeContentBorderRight);
+								// set height and width to wrapper + margins top & bot + border height + extra padding				
+								$iframe.height($iframeWrapper.outerHeight(true) + opt.padding)  
+								.width($iframeWrapper.outerWidth() + opt.padding);
 
-								
 								// set the wrapper back to relative or we'll lose wrapping
-								// and the top and bottom borders if they exist
 								// add zoom to fix IE6 has layout bug
 								$iframeWrapper.css({
 									'position' : 'relative',
