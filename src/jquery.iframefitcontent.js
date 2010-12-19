@@ -40,7 +40,7 @@
 		            
 						var $iframe = $(this), opt = options;
 					
-						function setHeight() {
+						function resizeiframe() {
 								
 								
 								// hide the iframe until it loaded to avoid the height pop
@@ -100,11 +100,11 @@
 								// if resize is set then apply new size to the correct dimensions then
 								// set height and width to wrapper + margins top & bot + border height + extra padding												
 								if (opt.resize !== 'width'){
-									$iframe.height($iframeWrapper.outerHeight(true) + opt.padding);
+									$iframe.height($iframeWrapper.outerHeight(true));
 								}
 								
 								if (opt.resize !== 'height'){
-									$iframe.width($iframeWrapper.outerWidth(true) + opt.padding);
+									$iframe.width($iframeWrapper.outerWidth(true));
 								}
 								
 								
@@ -120,7 +120,7 @@
 								
 							}
 
-						$(this).bind("load", setHeight);
+						$(this).bind("load", resizeiframe);
 						
 					});
 					
