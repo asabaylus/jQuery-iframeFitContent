@@ -50,12 +50,6 @@
 								// create vars
 								var $iframeContent, 
 									$iframeWrapper, 
-									marginTop, 
-									marginBottom, 
-									marginLeft, 
-									marginRight,
-									i=0, 
-									y=0, 
 									$iframeChildren, 
 									iframeWrapperBorderLeft, 
 									iframeWrapperBorderRight;
@@ -112,7 +106,6 @@
 								if (opt.resize !== 'height'){
 									$iframe.width($iframeWrapper.outerWidth(true) + opt.padding);
 								}
-								console.log(opt);
 								
 								
 								// set the wrapper back to relative or we'll lose wrapping
