@@ -29,7 +29,10 @@
 	$.fn.extend({
 		iframeFitContent: function (options) {			
 					
-					var defaults = {padding: 0}, now = new Date();
+					var defaults = {
+							resize: 'both' // sets which dimensions to resize: height, width or both
+							}, 
+							now = new Date();
 					
 					options = $.extend(defaults, options);
 					
@@ -100,15 +103,16 @@
 									'margin-right' : '0'
 								});
 								
-								// if height or width iframe attr is set then do not resize to content
-								// set height and width to wrapper + margins top & bot + border height + extra padding				
-								if (!$iframe.attr('height')){
+								// if resize is set then apply new size to the correct dimensions then
+								// set height and width to wrapper + margins top & bot + border height + extra padding												
+								if (opt.resize !== 'width'){
 									$iframe.height($iframeWrapper.outerHeight(true) + opt.padding);
 								}
 								
-								if (!$iframe.attr('width')){
-									$iframe.width($iframeWrapper.outerWidth() + opt.padding);
+								if (opt.resize !== 'height'){
+									$iframe.width($iframeWrapper.outerWidth(true) + opt.padding);
 								}
+								console.log(opt);
 								
 								
 								// set the wrapper back to relative or we'll lose wrapping
