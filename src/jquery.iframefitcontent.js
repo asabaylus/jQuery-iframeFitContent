@@ -100,11 +100,17 @@
 									'margin-right' : '0'
 								});
 								
-								
+								// if height or width iframe attr is set then do not resize to content
 								// set height and width to wrapper + margins top & bot + border height + extra padding				
-								$iframe.height($iframeWrapper.outerHeight(true) + opt.padding)  
-								.width($iframeWrapper.outerWidth() + opt.padding);
-
+								if (!$iframe.attr('height')){
+									$iframe.height($iframeWrapper.outerHeight(true) + opt.padding);
+								}
+								
+								if (!$iframe.attr('width')){
+									$iframe.width($iframeWrapper.outerWidth() + opt.padding);
+								}
+								
+								
 								// set the wrapper back to relative or we'll lose wrapping
 								// add zoom to fix IE6 has layout bug
 								$iframeWrapper.css({

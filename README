@@ -1,4 +1,4 @@
-iframeResizeFix jQuery Plugin v1.0.0
+iframeFitContent jQuery Plugin v1.0.0
 -------------------------------
 Copyright (c) 2010 Asa Baylus. Licensed under the MIT license.
  
@@ -29,3 +29,6 @@ $("iframe").iframeFitContent();
 
 // apply the height fix with some extra padding on the bottom of the iframe (you shouldn't need this)
 $("iframe").iframeFitContent({ padding : '30' });
+
+If a height or width attribute has been set on the iframe then the iframeFitConent plugin resize
+will be ignored in favor of the attributes dimension.
