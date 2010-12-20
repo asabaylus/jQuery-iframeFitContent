@@ -31,7 +31,7 @@
 					
 					var defaults = {
 							resize: 'both' // sets which dimensions to resize: height, width or both
-							}, 
+						}, 
 							now = new Date();
 					
 					options = $.extend(defaults, options);
@@ -49,10 +49,7 @@
 						
 								// create vars
 								var $iframeContent, 
-									$iframeWrapper, 
-									$iframeChildren, 
-									iframeWrapperBorderLeft, 
-									iframeWrapperBorderRight;
+									$iframeWrapper;
 						
 								// get iframe contents
 								$iframeContent = $iframe.contents().find("body");
@@ -99,11 +96,11 @@
 								
 								// if resize is set then apply new size to the correct dimensions then
 								// set height and width to wrapper + margins top & bot + border height + extra padding												
-								if (opt.resize !== 'width'){
+								if (opt.resize !== 'width') {
 									$iframe.height($iframeWrapper.outerHeight(true));
 								}
 								
-								if (opt.resize !== 'height'){
+								if (opt.resize !== 'height') {
 									$iframe.width($iframeWrapper.outerWidth(true));
 								}
 								
