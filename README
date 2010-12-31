@@ -11,7 +11,6 @@ A jQuery plugin which automatically sets the height of your iframes to match the
 Features include:
 	- jQuery-style instantiation
 	- jQuery-style event handling
-	- Ability to add extra bottom padding to your iframes
 	- Hide the iframe until iframe content has loaded
 	
 IMPORTANT NOTE!!!
@@ -27,8 +26,12 @@ Usage
 // apply the height fix
 $("iframe").iframeFitContent();
 
-// apply the height fix with some extra padding on the bottom of the iframe (you shouldn't need this)
-$("iframe").iframeFitContent({ padding : '30' });
+The resize may now be applied to height, width or both. Both is the default
+$("iframe").iframeFitContent({ resize : 'height' });
+$("iframe").iframeFitContent({ resize : 'width' });
+$("iframe").iframeFitContent({ resize : 'both' });
 
 If a height or width attribute has been set on the iframe then the iframeFitConent plugin resize
 will be ignored in favor of the attributes dimension.
+
+Support for "padding" has been removed from he plugin options as it is not needed.
