@@ -1,7 +1,7 @@
 /**
  * Resizes the height of the iframe in blue dragon applications to accomodate content contained in the iframe without verticle scrollbars
  * @author Asa Baylus
- * @version 1.0.0
+ * @version 1.0.1
  * 
  * Copyright (c) 2010 Asa Baylus, http://baylus.com/
  * 
@@ -40,17 +40,28 @@
 		            
 						var $iframe = $(this), opt = options;
 					
+						
+						
+						// initial the iframe
+						// 1. clear the browser cache by makeing the iframe url unique
+						// 2. turn off scrolling for IE6
+						function initiframe(){
+								
+								//For IE6 you must set the iframe attribute for scrolling="no"
+								$iframe.attr("scrolling" , "no").attr({
+									"src" : this.src + "?z=" +  now.getTime().toString()
+									
+									}).bind("load", resizeiframe)
+						}
+						
 						function resizeiframe() {
-								
-								
 								// hide the iframe until it loaded to avoid the height pop
-								// set overflow hidden to fix IE6 display issues wich result in extra margin
-								$iframe.css({visibility: "hidden"});
+								$iframe.css({visibility: "hidden"});		
 						
 								// create vars
 								var $iframeContent, 
-									$iframeWrapper;
-						
+									$iframeWrapper
+
 								// get iframe contents
 								$iframeContent = $iframe.contents().find("body");
 								
@@ -117,7 +128,7 @@
 								
 							}
 
-						$(this).bind("load", resizeiframe);
+						$(this).one("load" , initiframe);
 						
 					});
 					
