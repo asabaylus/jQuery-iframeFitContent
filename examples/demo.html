@@ -9,7 +9,14 @@
 		<script type="text/javascript">
 			// sample iframeFitContent plugin usage
 			$(document).ready(function(){
-					$("#myframe").iframeFitContent({resize:'height'});			
+					$("#myframe").iframeFitContent( {resize:'both'} ).css("border-color", "red");
+					
+					$("#btn-myframe").click(function(){
+							$("#myframe").iframeFitContent({resize:'width'},'render');
+							
+					});		
+					
+					
 			})
 		</script>
 		<script type="text/javascript">
@@ -40,16 +47,18 @@
 		   <div id="hd"><h1>iframeFitContent Plugin Demo</h1></div> 
 		   <div id="bd"> 
 		    <div class="yui-g"> 
-		    <div class="yui-u first"> 
-		    	<h2>jQuery iframeContentFit(); sample</h2>
-		    	<iframe id="myframe" src="sample-content_1.html" frameborder="0" style="border:6px solid;" scrolling="no"></iframe>
-		    </div> 
-		    <div class="yui-u"> 
-		    	<h2>Typical Javascript iframe script sample</h2>
-		    	<iframe id="myframe2" onload="changeHeight(this);" src="sample-content_1.html" frameborder="0" style="border:6px solid;" scrolling="no"></iframe>
-		    </div> 
+			    <div class="yui-u first"> 
+			    	<h2>jQuery iframeContentFit(); sample</h2>
+			    	<iframe id="myframe" src="sample-content_1.html" frameborder="0" style="border:6px solid;" scrolling="no" name="myframe"></iframe>
+			    	<br>
+			    	<button id="btn-myframe">Resize iFrame</button> 
+			    </div> 
+			    <div class="yui-u"> 
+			    	<h2>Typical Javascript iframe script sample</h2>
+			    	<iframe id="myframe2" onload="changeHeight(this);" src="sample-content_1.html" frameborder="0" style="border:6px solid;" scrolling="no"></iframe>
+			    </div> 
 			</div> 		 
-	 	   </div> 
+			</div> 
 		   <div id="ft"><p><a href="http://www.baylus.com/iframefitcontent-a-jquery-plugin/">Plugin Documentation</a></p></p></div> 
 		</div> 
 	</body>

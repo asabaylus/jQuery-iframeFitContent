@@ -3,7 +3,7 @@
  * @author Asa Baylus
  * @version 1.0.1
  * 
- * Copyright (c) 2010 Asa Baylus, http://baylus.com/
+ * Copyright (c) 2011 Asa Baylus, http://baylus.com/
  * 
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -27,34 +27,52 @@
 
 (function ($) {
 	$.fn.extend({
-		iframeFitContent: function (options) {			
+		iframeFitContent: function (options, method) {			
+				
 					
+    				
 					var defaults = {
-							resize: 'both' // sets which dimensions to resize: height, width or both
-						}, 
-							now = new Date();
-					
-					options = $.extend(defaults, options);
-					
-		            return this.each(function () {
-		            
-						var $iframe = $(this), opt = options;
-					
-						
-						
-						// initial the iframe
-						// 1. clear the browser cache by makeing the iframe url unique
-						// 2. turn off scrolling for IE6
-						function initiframe(){
+						resize: 'both' // sets which dimensions to resize: height, width or both
+						},
+						$iframe = $(this), 
+						opt = options,
+						now = new Date(),
+						methods = {
+							init: function(){
 								
-								//For IE6 you must set the iframe attribute for scrolling="no"
-								$iframe.attr("scrolling" , "no").attr({
-									"src" : this.src + "?z=" +  now.getTime().toString()
+								//console.log("init!");
+								
+								
+								return this.each(function () {
+								
+								
+					            var $iframe = $(this), 
+									opt = options;
 									
-									}).bind("load", resizeiframe)
-						}
-						
-						function resizeiframe() {
+									//console.log($iframe, opt);
+									
+									$iframe.one("load" , function(){
+																		
+											// clear the browser cache by makeing the iframe url unique
+											$iframe.attr("scrolling" , "no").attr({
+												"src" : this.src + "?z=" +  now.getTime().toString()
+											}).bind("load", function(){
+												
+												//$.fn.iframeFitContent(opt,'render');
+												return methods.render.apply( $iframe );
+											});
+										
+									});
+								});			
+								
+							},
+							render : function() {
+								
+								
+								//console.log('render!');
+								
+								
+								
 								// hide the iframe until it loaded to avoid the height pop
 								$iframe.css({visibility: "hidden"});		
 						
@@ -64,6 +82,8 @@
 
 								// get iframe contents
 								$iframeContent = $iframe.contents().find("body");
+								
+								// console.log($iframe.contents());
 								
 								
 								// wrap the page content in a div with a unique ID
@@ -126,14 +146,35 @@
 								// show the iframe when finished
 								$iframe.css("visibility", "visible");	
 								
+								
+								// make plugin chainable
+								// beware the height / width will be wrong in the chain
+								return this;
+								
+								
 							}
+							
+						};
 
-						$(this).one("load" , initiframe);
+
+					
+					options = $.extend(defaults, options);
+					
+					
+					if ( methods[method] ) {
+						// need to better understand  Array.prototype.slice.call( arguments, 1 ) I dont see the point
+						return methods[ method ].apply(this, Array.prototype.slice.call( arguments, 1 ));
+					} else if ( typeof method === 'object' || ! method ) {
+						return methods.init.apply( $(this), arguments );
+					} else {
+						$.error( 'Method ' +  method + ' does not exist on jQuery.iframeFitContent' );
+					}    
+
 						
-					});
 					
-					
+
 				}
+	
 		
 	});
 	
