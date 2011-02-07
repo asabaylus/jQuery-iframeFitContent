@@ -37,8 +37,6 @@
 						},
 						_version = "1.0.1",
 						_options = options,
-						_origHeight,
-						_origWidth,
 						$iframe = $(this), 
 						$iframeContent, 
 						$iframeWrapper,
@@ -54,16 +52,18 @@
 								        var $iframe = $(this), 
 											opt = _options;
 											
-											// get the originl dimensions
-											// we'll use them during destroy
-											_origHeight = $iframe.height();
-											_origWidth = $iframe.width();
-											
 											$iframe.one("load" , function(){
 													
 													// clear the browser cache by makeing the iframe url unique
 													$iframe.attr("scrolling" , "no").attr({
 														"src" : this.src + "?z=" +  _loadTime
+													}).data({
+														
+														// get the originl dimensions
+														// we'll use them during destroy
+														originalHeight : $iframe.height(),
+														originalWidth : $iframe.width()
+													
 													}).bind("load", function(){
 											
 														return methods.render.apply( $iframe );
@@ -165,15 +165,15 @@
 								
 								originalWidth : function (){
 									return this.each(function () {
-									 	console.log("original width", _origWidth);
-										return _origWidth;		
+									 	console.log("original width", $(this).data("originalWidth"));
+										return $(this).data("originalWidth");		
 									});							
 									
 								},
 								
 								originalHeight : function (){
-									 	console.log("original height", _origHeight);
-										return _origHeight;									
+									 	console.log("original height", $(this).data("originalHeight"));
+										return $(this).data("originalHeight");										
 								},
 								
 								destroy : function(){
