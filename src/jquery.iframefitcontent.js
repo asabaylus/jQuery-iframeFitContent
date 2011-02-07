@@ -28,12 +28,15 @@
 (function ($) {
 	$.fn.extend({
 		iframeFitContent: function (options, method) {			
+					
 				
+					
 
 					var defaults = {
 						resize: 'both' // sets which dimensions to resize: height, width or both
 						},
 						_version = "1.0.1",
+						_options = options,
 						_origHeight,
 						_origWidth,
 						$iframe = $(this), 
@@ -41,48 +44,41 @@
 						$iframeWrapper,
 						opt = options  = {},
 						now = new Date(),
+						_loadTime = now.getTime().toString(),
+						_wrapperID = 'iframeWrapper' + _loadTime,
 						methods = {
 							init: function(){
 								
-								console.log("init!");
-									
-									
 								return this.each(function () {
 									
-										$(document).trigger("iframeFitContentReady", [now.getTime(), _version]);
-										
-							            var $iframe = $(this), 
-											opt = options;
+								        var $iframe = $(this), 
+											opt = _options;
 											
 											// get the originl dimensions
 											// we'll use them during destroy
 											_origHeight = $iframe.height();
 											_origWidth = $iframe.width();
 											
-											
-											
-											//console.log($iframe, opt);
-											
 											$iframe.one("load" , function(){
-																				
+													
 													// clear the browser cache by makeing the iframe url unique
 													$iframe.attr("scrolling" , "no").attr({
-														"src" : this.src + "?z=" +  now.getTime().toString()
+														"src" : this.src + "?z=" +  _loadTime
 													}).bind("load", function(){
-														
-														//$.fn.iframeFitContent(opt,'render');
+											
 														return methods.render.apply( $iframe );
+											
 													});
+													
+												$(this).trigger("iframeFitContentReady", [_loadTime, _version]);
+												
+												console.log("init");
 												
 											});
 										});			
 									
 								},
 								render : function() {
-									
-									
-									console.log('render!');
-									
 									
 									
 									// hide the iframe until it loaded to avoid the height pop
@@ -92,16 +88,13 @@
 									// get iframe contents
 									$iframeContent = $iframe.contents().find("body");
 									
-									// console.log($iframe.contents());
-									
 									
 									// wrap the page content in a div with a unique ID
-									$iframeContent.children().wrapAll("<div id='iframeWrapper" + now.getTime().toString() + "'></div>");
+									$iframeContent.children().wrapAll('<div id='+ _wrapperID + '></div>');
 									
 									// cache the wrapper
-									$iframeWrapper = $iframeContent.find("#iframeWrapper" + now.getTime().toString());
+									$iframeWrapper = $iframeContent.find("#iframeWrapper" + _loadTime);
 									
-									console.log($iframeWrapper);
 									
 									// copy the margins and borders from the body onto the wrapper div
 									// convert margins to padding for IE6 or we end up with too much height
@@ -158,6 +151,11 @@
 									$iframe.css("visibility", "visible");	
 									
 									
+									// trigger render event
+									$(this).trigger("iframeFitcontentRendered", [this]);
+									
+									console.log('render');
+									
 									// make plugin chainable
 									// beware the height / width will be wrong in the chain
 									return this;
@@ -166,55 +164,50 @@
 								},
 								
 								originalWidth : function (){
-									return this.each(function(){
-										console.log("original width", _originalWidht);
-										return _origWidth;									
-									});
+									return this.each(function () {
+									 	console.log("original width", _origWidth);
+										return _origWidth;		
+									});							
 									
 								},
 								
 								originalHeight : function (){
-									return _origHeight;
+									 	console.log("original height", _origHeight);
+										return _origHeight;									
 								},
+								
 								destroy : function(){
+								
+									//$iframeContent.children().unwrap();
 									console.log("destroy");	
 								}
 								
 							};
-	
-	
+				
+				
+						// if the user specified an option which is also
+						// a method then copy the options into the methods
+						// this allow directly invoking a method like so 
+						// $.fn.sessionTimeout("destroy");
+						if(methods[_options]) {
+							method = _options;
+						} 
 						
-						options = $.extend(defaults, options);
-
-	/*
-					
-						if (!opt) {
 						
-							method = opt;
-						}
-*/
-
-						if (!options) { options = method};
-					    console.log("options",options);
-					    console.log("method",method);
-						console.log("methods[method]", methods[method]);
+						// set the options
+						_options = $.extend(defaults, _options);	
+						
 													
 						if ( methods[method] ) {
-							// need to better understand  Array.prototype.slice.call( arguments, 1 ) I dont see the point
-							console.log("run method = " + methods[ method ].toString());
 							return methods[ method ].apply(this, Array.prototype.slice.call( arguments, 1 ));
-						} else if ( typeof method === 'object' || ! method ) {
+						} else if ( typeof method === 'object' || ! method ) {						
 							return methods.init.apply( $(this), arguments );
 						} else {
 							$.error( 'Method ' +  methods[method] + ' does not exist on jQuery.iframeFitContent' );
 						}    
 	
-							
-						
-	
+
 					}
-		
-		
 	});
 	
 })(jQuery);
