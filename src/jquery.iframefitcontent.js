@@ -62,7 +62,9 @@
 														// get the originl dimensions
 														// we'll use them during destroy
 														originalHeight : $iframe.height(),
-														originalWidth : $iframe.width()
+														originalWidth : $iframe.width(),
+														loadTime : _loadTime,
+														wrapper : _wrapperID
 													
 													}).bind("load", function(){
 											
@@ -70,9 +72,9 @@
 											
 													});
 													
-												$(this).trigger("iframeFitContentReady", [_loadTime, _version]);
+												$iframe.trigger("iframeFitContentReady", [_loadTime, _version]);
 												
-												console.log("init");
+												// console.log("init");
 												
 											});
 										});			
@@ -89,11 +91,15 @@
 									$iframeContent = $iframe.contents().find("body");
 									
 									
-									// wrap the page content in a div with a unique ID
-									$iframeContent.children().wrapAll('<div id='+ _wrapperID + '></div>');
+									// only add a wrapper the one time
+									if ($iframe.data("loadTime")  === _loadTime){
+										// wrap the page content in a div with a unique ID
+										$iframeContent.children().wrapAll('<div id='+ _wrapperID + '></div>');
+									}
+									
 									
 									// cache the wrapper
-									$iframeWrapper = $iframeContent.find("#iframeWrapper" + _loadTime);
+									$iframeWrapper = $iframeContent.find("#iframeWrapper" + $iframe.data("loadTime"));
 									
 									
 									// copy the margins and borders from the body onto the wrapper div
@@ -154,7 +160,7 @@
 									// trigger render event
 									$(this).trigger("iframeFitcontentRendered", [this]);
 									
-									console.log('render');
+									// console.log('render');
 									
 									// make plugin chainable
 									// beware the height / width will be wrong in the chain
@@ -165,21 +171,38 @@
 								
 								originalWidth : function (){
 									return this.each(function () {
-									 	console.log("original width", $(this).data("originalWidth"));
+									  // console.log("original width", $(this).data("originalWidth"));
 										return $(this).data("originalWidth");		
 									});							
 									
 								},
 								
 								originalHeight : function (){
-									 	console.log("original height", $(this).data("originalHeight"));
+									  // console.log("original height", $(this).data("originalHeight"));
 										return $(this).data("originalHeight");										
 								},
 								
 								destroy : function(){
-								
-									//$iframeContent.children().unwrap();
-									console.log("destroy");	
+									// return the height / width to original state
+									var h = $iframe.data("originalHeight"),
+										w = $iframe.data("originalWidth"),
+										
+										// get iframe contents
+										$iframeContent = $iframe.contents().find("body"),
+					
+										// cache the wrapper
+										$iframeWrapper = $iframeContent.find("#iframeWrapper" + $iframe.data("loadTime")),
+										
+										wrapperStyles = $iframeWrapper.attr("style"); 															
+									// remove the wrapper div
+									$iframeWrapper.children().unwrap();
+									
+									// copy the styles from the div wrapper back to the body
+									// then set the dimension of the frame back to original values
+									$(this).attr("style" , wrapperStyles ).css({"height": h, "width": w});
+									
+									
+									console.log("destroy", w + " , " + h);	
 								}
 								
 							};
