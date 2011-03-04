@@ -40,7 +40,7 @@
 						$iframe = $(this), 
 						$iframeContent, 
 						$iframeWrapper,
-						opt = options  = {},
+						opt = (options || {}),
 						now = new Date(),
 						_loadTime = now.getTime().toString(),
 						_wrapperID = 'iframeWrapper' + _loadTime,
@@ -193,7 +193,7 @@
 										// cache the wrapper
 										$iframeWrapper = $iframeContent.find("#iframeWrapper" + $iframe.data("loadTime")),
 										
-										wrapperStyles = $iframeWrapper.attr("style"); 															
+										wrapperStyles = $iframeWrapper.attr("style");										
 									// remove the wrapper div
 									$iframeWrapper.children().unwrap();
 									

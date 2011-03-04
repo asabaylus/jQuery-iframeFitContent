@@ -11,15 +11,15 @@ $(document).ready(function(){
 	// listen for the plugins ready event
 	$("#testiframe").bind("iframeFitContentReady", function(event, timeStamp, _version){
 		pluginReady = [timeStamp, _version];
-	  	var re = new RegExp(pluginReady[0] + "$");
-	  	iframeSrcTimeStamp = $("#testiframe").attr("src").match( re ).toString();
+		var re = new RegExp(pluginReady[0] + "$");
+		iframeSrcTimeStamp = $("#testiframe").attr("src").match( re ).toString();
 	});	
-	
 	
 	
 	$("#testiframe").bind("iframeFitcontentRendered", function( iframe ){
 		$iframeWrapper = $("#testiframe").contents().find("body > #iframeWrapper"+pluginReady[0]);
 	});  
+
 	
 	
 	// init the plugin
@@ -32,28 +32,32 @@ $(document).ready(function(){
 	// does not match the existing dimensions.
 	
 	module("iframeFitContent initialization", {
-		setup: function(){
+		setup: function(){	
+		
+	
 		},
 		
 		teardown: function(){
+			
+			// $("#testiframe").iframeFitContent('render');
+		
 		}
 	});
  
-  test("Test plugin initialization", function(){
-  
-  		expect( 4 );
-
+	test("Test plugin initialization", function(){
+	
+		
 	 	// check that _version is defined
 		ok(pluginReady[1], "version: jQuery iframeFitContent " + pluginReady[1] );		
 	
-		ok(pluginReady[0].toString(), "plugin timeStamp exists")
+		ok(pluginReady[0].toString(), "plugin timeStamp exists");
 		
 		// check that the plugin timestamp matches the test element
 		equals(pluginReady[0].toString(), iframeSrcTimeStamp, 'plugin timeStamp matches iframe src attribute "z" querystring parameter, prevents cached iframe content');
-
+	
 		// check for wrapper div		
-		equals($iframeWrapper.length, 1, "div > #iframeWrapper"+pluginReady[0].toString()+" added to iframe DOM");
-
+		//equals($iframeWrapper.length, 1, "div > #iframeWrapper"+pluginReady[0].toString()+" added to iframe DOM");
+	
 	});
 
 	test("resize by height", function(){
@@ -72,13 +76,9 @@ $(document).ready(function(){
 			notEqual($("#testiframe").height(), origHeight, "original iframe height is not equal to new iframe height after content is resized to fit");
 	});
 
-
-
-
 	test("simulate a change to the iframe contents DOM dimensions" , function(){
-	 		
-	 	    // get the original dimensions
-		    var renderedHeight = $("#testiframe").height(); 
+			// get the original dimensions
+			var renderedHeight = $("#testiframe").height(); 
 		    var renderedWidth = $("#testiframe").width();
 		    
 			// simulate a change to the iframe content dimensions.
@@ -91,18 +91,5 @@ $(document).ready(function(){
 			notEqual($("#testiframe").width(), renderedWidth, "new iframe content width is not equal to old iframe content width");
 
 	});	
-
-
-	
-
-/*
-  test("Sample test", function()  
-  {  
-     expect(1);  
-     equals(divide(4,2),  
-      2,  
-      'Expected 2 as the result, result was: ' + divide(4,2));  
-  });  
-*/
 
 });  
