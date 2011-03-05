@@ -229,10 +229,11 @@
 							$.error( 'Method ' +  methods[method] + ' does not exist on jQuery.iframeFitContent' );
 						}    
 	
-
 					}
 	});
 	
+	return this;
+
 })(jQuery);
 
 
