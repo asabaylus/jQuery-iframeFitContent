@@ -10,7 +10,16 @@
 			// sample iframeFitContent plugin usage
 			$(document).ready(function(){
 					
-					$("#myframe").iframeFitContent( {resize:'both'} ).css("border-color", "red");
+					$("#myframe").iframeFitContent( {resize:'both'} ).css("border-color", "blue");
+
+
+
+					// resize the iframe to fit new content
+					$("#btn-init").click(function(){
+					
+							$("#myframe").iframeFitContent( );
+							
+					});	
 					
 					// resize the iframe to fit new content
 					$("#btn-resize").click(function(){
@@ -58,6 +67,7 @@
 			    	<h2>jQuery iframeContentFit(); sample</h2>
 			    	<iframe id="myframe" src="sample-content_1.html" frameborder="0" style="border:6px solid;" scrolling="no" name="myframe"></iframe>
 			    	<br>
+			    	<button id="btn-init">Initialize</button>
 			    	<button id="btn-resize">Resize</button>
 			    	<button id="btn-destroy">Destory</button>  
 			    </div> 

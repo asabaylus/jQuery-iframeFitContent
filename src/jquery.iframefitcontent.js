@@ -74,7 +74,7 @@
 													
 												$iframe.trigger("iframeFitContentReady", [_loadTime, _version]);
 												
-												// console.log("init");
+												console.log("init");
 												
 											});
 										});			
@@ -92,48 +92,49 @@
 									
 									
 									// only add a wrapper the one time
+									// and transfer the css one time only
 									if ($iframe.data("loadTime")  === _loadTime){
 										// wrap the page content in a div with a unique ID
 										$iframeContent.children().wrapAll('<div id='+ _wrapperID + '></div>');
 									}
+										// cache the wrapper
+										$iframeWrapper = $iframeContent.find("#iframeWrapper" + $iframe.data("loadTime"));		
+										
+									if ($iframe.data("loadTime")  === _loadTime){					
+										// copy the margins and borders from the body onto the wrapper div
+										// convert margins to padding for IE6 or we end up with too much height
+										$iframeWrapper.css({
+											'padding-top' : $iframeContent.css("margin-top"),
+											'padding-bottom' : $iframeContent.css("margin-bottom"),	
+											'padding-left' : $iframeContent.css("margin-left"),
+											'padding-right' : $iframeContent.css("margin-right"),
+											'border-left-width' : $iframeContent.css("border-left-width"),
+											'border-right-width' : $iframeContent.css("border-right-width"),
+											'border-top-width' : $iframeContent.css("border-top-width"),
+											'border-bottom-width' : $iframeContent.css("border-bottom-width"),
+											'border-left-style' : $iframeContent.css("border-left-style"),
+											'border-right-style' : $iframeContent.css("border-right-style"),
+											'border-top-style' : $iframeContent.css("border-top-style"),
+											'border-bottom-style' : $iframeContent.css("border-bottom-style"),
+											'border-left-color' : $iframeContent.css("border-left-color"),
+											'border-right-color' : $iframeContent.css("border-right-color"),
+											'border-top-color' : $iframeContent.css("border-top-color"),
+											'border-bottom-color' : $iframeContent.css("border-bottom-color"),
+											'position' : 'absolute',
+											'height' : 'auto',
+											'width' : 'auto'				  
+										});
+										
+										// remove margins from the iframe > body 
+										$iframeContent.css({
+											'border' : 'none',
+											'margin-top' : '0',
+											'margin-bottom' : '0',
+											'margin-left' : '0',
+											'margin-right' : '0'
+										});
+									}
 									
-									
-									// cache the wrapper
-									$iframeWrapper = $iframeContent.find("#iframeWrapper" + $iframe.data("loadTime"));
-									
-									
-									// copy the margins and borders from the body onto the wrapper div
-									// convert margins to padding for IE6 or we end up with too much height
-									$iframeWrapper.css({
-										'padding-top' : $iframeContent.css("margin-top"),
-										'padding-bottom' : $iframeContent.css("margin-bottom"),	
-										'padding-left' : $iframeContent.css("margin-left"),
-										'padding-right' : $iframeContent.css("margin-right"),
-										'border-left-width' : $iframeContent.css("border-left-width"),
-										'border-right-width' : $iframeContent.css("border-right-width"),
-										'border-top-width' : $iframeContent.css("border-top-width"),
-										'border-bottom-width' : $iframeContent.css("border-bottom-width"),
-										'border-left-style' : $iframeContent.css("border-left-style"),
-										'border-right-style' : $iframeContent.css("border-right-style"),
-										'border-top-style' : $iframeContent.css("border-top-style"),
-										'border-bottom-style' : $iframeContent.css("border-bottom-style"),
-										'border-left-color' : $iframeContent.css("border-left-color"),
-										'border-right-color' : $iframeContent.css("border-right-color"),
-										'border-top-color' : $iframeContent.css("border-top-color"),
-										'border-bottom-color' : $iframeContent.css("border-bottom-color"),
-										'position' : 'absolute',
-										'height' : 'auto',
-										'width' : 'auto'				  
-									});
-									
-									// remove margins from the iframe > body 
-									$iframeContent.css({
-										'border' : 'none',
-										'margin-top' : '0',
-										'margin-bottom' : '0',
-										'margin-left' : '0',
-										'margin-right' : '0'
-									});
 									
 									// if resize is set then apply new size to the correct dimensions then
 									// set height and width to wrapper + margins top & bot + border height + extra padding												
@@ -160,7 +161,7 @@
 									// trigger render event
 									$(this).trigger("iframeFitcontentRendered", [this]);
 									
-									// console.log('render');
+									console.log('render');
 									
 									// make plugin chainable
 									// beware the height / width will be wrong in the chain
@@ -183,10 +184,12 @@
 								},
 								
 								destroy : function(){
-									// return the height / width to original state
-									var h = $iframe.data("originalHeight"),
-										w = $iframe.data("originalWidth"),
-										
+								
+									try {
+										// return the height / width to original state
+										var h = $iframe.data("originalHeight"),
+											w = $iframe.data("originalWidth"),
+											
 										// get iframe contents
 										$iframeContent = $iframe.contents().find("body"),
 					
@@ -194,15 +197,39 @@
 										$iframeWrapper = $iframeContent.find("#iframeWrapper" + $iframe.data("loadTime")),
 										
 										wrapperStyles = $iframeWrapper.attr("style");										
-									// remove the wrapper div
-									$iframeWrapper.children().unwrap();
+	
+										// remove the wrapper div
+										$iframeWrapper.children().unwrap();
+										
+										// copy the styles from the div wrapper back to the body
+										// then set the dimension of the frame back to original values
+										$(this).attr("style" , wrapperStyles ).css({"height": h, "width": w});
+										
+										// clear data and cleanup vars
+										$iframe.removeData();
+										$iframe.unbind("iframeFitcontentRendered");
+										$iframe.unbind("load");
+										delete method;
+										delete defaults;
+										delete _version;
+										delete _options;
+										delete $iframe;
+										delete $iframeContent; 
+										delete $iframeWrapper;
+										delete opt;
+										delete options;
+										delete now;
+										delete _loadTime;
+										delete _wrapperID;
+										delete methods;
+										
+									}
+									catch (error) {
+										$.error("Cannot destroy iframeFitContent, until after the plugin has been initialized");
+									}
 									
-									// copy the styles from the div wrapper back to the body
-									// then set the dimension of the frame back to original values
-									$(this).attr("style" , wrapperStyles ).css({"height": h, "width": w});
-									
-									
-									console.log("destroy", w + " , " + h);	
+									// make the plugin chainable
+									return this;
 								}
 								
 							};
@@ -232,7 +259,6 @@
 					}
 	});
 	
-	return this;
 
 })(jQuery);
 
