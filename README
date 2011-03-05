@@ -1,6 +1,6 @@
-iframeFitContent jQuery Plugin v1.0.0
+iframeFitContent jQuery Plugin v1.0.1
 -------------------------------
-Copyright (c) 2010 Asa Baylus. Licensed under the MIT license.
+Copyright (c) 2011 Asa Baylus. Licensed under the MIT license.
  
 
 Overview
@@ -33,4 +33,18 @@ $("iframe").iframeFitContent({ resize : 'both' });
 If a height or width attribute has been set on the iframe then the iframeFitConent plugin resize
 will be ignored in favor of the attributes dimension.
 
-Support for "padding" has been removed from he plugin options as it is not needed.
+The target iframe may be resized by calling "render" after the dimensions of the iframes contents have changed
+$("iframe").iframeFitContent('render');
+
+Alternately the iframe may be resized along height or width seperatley as follows
+$("iframe").iframeFitContent({ resize : 'height' }, 'render');
+
+Calling "destroy" will undo the changes iframeFitContent makes to the DOM.
+$("iframe").iframeFitContent('destroy');
+
+The plugin is chainable...
+$("iframe").iframeFitContent().each(function(){ alert('do somthing else') });
+
+For example usage view examples/demo.html
+
+The example page also includes a common sample script taken from te wilds of the internet for comparison.
