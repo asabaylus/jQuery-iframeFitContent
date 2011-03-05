@@ -74,9 +74,13 @@
 													
 												$iframe.trigger("iframeFitContentReady", [_loadTime, _version]);
 												
-												console.log("init");
+												
 												
 											});
+											
+											 // console.log("init");
+											
+											$iframe.trigger("load");
 										});			
 									
 								},
@@ -161,7 +165,7 @@
 									// trigger render event
 									$(this).trigger("iframeFitcontentRendered", [this]);
 									
-									console.log('render');
+									// console.log('render');
 									
 									// make plugin chainable
 									// beware the height / width will be wrong in the chain
