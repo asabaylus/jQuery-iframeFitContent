@@ -15,18 +15,8 @@
 	<div id="qunit-testrunner-toolbar"></div>
 	<h2 id="qunit-userAgent"></h2>
 	<ol id="qunit-tests"></ol>
-	<iframe id="testiframe" src="../examples/sample-content_1.html" frameborder="0" autoscroll="no"></iframe>
-	
-	<script type="text/javascript">
-	$(function(){
-	
-		$("#btn-myframe").click(function(){
-			$("#testiframe").iframeFitContent({resize:'width'},'render');					
-		});
-	})
-
-	</script>
-	<button id="btn-myframe">Resize iFrame</button> 				
-								
+	<div id="qunit-fixture">
+	<iframe id="testiframe" src="../examples/sample-content_1.html" frameborder="0" autoscroll="no"></iframe>	
+	</div>
 </body>
 </html>

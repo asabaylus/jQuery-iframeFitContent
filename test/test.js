@@ -20,10 +20,10 @@ $(document).ready(function(){
 		$iframeWrapper = $("#testiframe").contents().find("body > #iframeWrapper"+pluginReady[0]);
 	});  
 
-	
+	$("#testiframe").iframeFitContent(); 
 	
 	// init the plugin
-	$("#testiframe").iframeFitContent(); 	  
+	 
 	
 	// these tests verfiy that the dimensions of the test iframe
 	// are different from the iframe's original dimensions
@@ -31,18 +31,7 @@ $(document).ready(function(){
 	// since I know the sample content getting loaded into the iframe
 	// does not match the existing dimensions.
 	
-	module("iframeFitContent initialization", {
-		setup: function(){	
-		
-	
-		},
-		
-		teardown: function(){
-			
-			// $("#testiframe").iframeFitContent('render');
-		
-		}
-	});
+	module("iframeFitContent");
  
 	test("Test plugin initialization", function(){
 	
@@ -56,7 +45,7 @@ $(document).ready(function(){
 		equals(pluginReady[0].toString(), iframeSrcTimeStamp, 'plugin timeStamp matches iframe src attribute "z" querystring parameter, prevents cached iframe content');
 	
 		// check for wrapper div		
-		//equals($iframeWrapper.length, 1, "div > #iframeWrapper"+pluginReady[0].toString()+" added to iframe DOM");
+		equals($iframeWrapper.length, 1, "div > #iframeWrapper"+pluginReady[0].toString()+" added to iframe DOM");
 	
 	});
 
