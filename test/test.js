@@ -9,14 +9,14 @@ $(document).ready(function(){
 	  $iframeWrapper;
 	
 	// listen for the plugins ready event
-	$("#testiframe").bind("iframe.rendered", function(event, timeStamp, _version){
+	$("#testiframe").bind("rendered.iframe", function(event, timeStamp, _version){
 		pluginReady = [timeStamp, _version];
 		var re = new RegExp(pluginReady[0] + "$");
 		iframeSrcTimeStamp = $("#testiframe").attr("src").match( re ).toString();
 	});	
 	
 	
-	$("#testiframe").bind("iframe.rendered", function( iframe ){
+	$("#testiframe").bind("rendered.iframe", function( iframe ){
 		$iframeWrapper = $("#testiframe").contents().find("body > #iframeWrapper"+pluginReady[0]);
 	});  
 

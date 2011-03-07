@@ -72,7 +72,7 @@
 											
 													});
 													
-												$iframe.trigger("iframe.rendered", [_loadTime, _version]);
+												$iframe.trigger("rendered.iframe", [_loadTime, _version]);
 												
 											});
 											
