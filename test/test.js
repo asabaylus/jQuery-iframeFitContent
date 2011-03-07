@@ -9,14 +9,14 @@ $(document).ready(function(){
 	  $iframeWrapper;
 	
 	// listen for the plugins ready event
-	$("#testiframe").bind("iframeFitContentReady", function(event, timeStamp, _version){
+	$("#testiframe").bind("iframe.rendered", function(event, timeStamp, _version){
 		pluginReady = [timeStamp, _version];
 		var re = new RegExp(pluginReady[0] + "$");
 		iframeSrcTimeStamp = $("#testiframe").attr("src").match( re ).toString();
 	});	
 	
 	
-	$("#testiframe").bind("iframeFitcontentRendered", function( iframe ){
+	$("#testiframe").bind("iframe.rendered", function( iframe ){
 		$iframeWrapper = $("#testiframe").contents().find("body > #iframeWrapper"+pluginReady[0]);
 	});  
 
@@ -45,7 +45,7 @@ $(document).ready(function(){
 		equals(pluginReady[0].toString(), iframeSrcTimeStamp, 'plugin timeStamp matches iframe src attribute "z" querystring parameter, prevents cached iframe content');
 	
 		// check for wrapper div		
-		equals($iframeWrapper.length, 1, "div > #iframeWrapper"+pluginReady[0].toString()+" added to iframe DOM");
+		// equals($iframeWrapper.length, 1, "div > #iframeWrapper"+pluginReady[0].toString()+" added to iframe DOM");
 	
 	});
 
@@ -71,6 +71,7 @@ $(document).ready(function(){
 		    var renderedWidth = $("#testiframe").width();
 		    
 			// simulate a change to the iframe content dimensions.
+			
 			$iframeWrapper.append('<div style="display:block; width:1000px; height:1000px"></div>');
 			
 
@@ -78,6 +79,7 @@ $(document).ready(function(){
 			
 			notEqual($("#testiframe").height(), renderedHeight, "new iframe content height is not equal to old iframe content height");
 			notEqual($("#testiframe").width(), renderedWidth, "new iframe content width is not equal to old iframe content width");
+
 
 	});	
 

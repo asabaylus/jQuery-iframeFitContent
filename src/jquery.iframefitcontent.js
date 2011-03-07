@@ -72,16 +72,13 @@
 											
 													});
 													
-												$iframe.trigger("iframeFitContentReady", [_loadTime, _version]);
-												
-												
+												$iframe.trigger("iframe.rendered", [_loadTime, _version]);
 												
 											});
 											
-											 // console.log("init");
-											
-											$iframe.trigger("load");
-										});			
+										});	
+										
+										// console.log(init");		
 									
 								},
 								render : function() {
@@ -211,7 +208,7 @@
 										
 										// clear data and cleanup vars
 										$iframe.removeData();
-										$iframe.unbind("iframeFitcontentRendered");
+										$iframe.unbind("iframe");
 										$iframe.unbind("load");
 										delete method;
 										delete defaults;
