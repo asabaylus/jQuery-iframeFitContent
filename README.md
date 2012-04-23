@@ -22,6 +22,7 @@ IE 6 will leave a small border to the right and bottom between the body and the 
 Usage
 -----
 
+```javascript
 // apply the height fix
 $("iframe").iframeFitContent();
 
@@ -29,21 +30,23 @@ The resize may now be applied to height, width or both. Both is the default
 $("iframe").iframeFitContent({ resize : 'height' });
 $("iframe").iframeFitContent({ resize : 'width' });
 $("iframe").iframeFitContent({ resize : 'both' });
+```
 
 If a height or width attribute has been set on the iframe then the iframeFitConent plugin resize
 will be ignored in favor of the attributes dimension.
 
+
 The target iframe may be resized by calling "render" after the dimensions of the iframes contents have changed
-$("iframe").iframeFitContent('render');
+`$("iframe").iframeFitContent('render');`
 
 Alternately the iframe may be resized along height or width seperatley as follows
-$("iframe").iframeFitContent({ resize : 'height' }, 'render');
+`$("iframe").iframeFitContent({ resize : 'height' }, 'render');`
 
 Calling "destroy" will undo the changes iframeFitContent makes to the DOM.
-$("iframe").iframeFitContent('destroy');
+`$("iframe").iframeFitContent('destroy');`
 
 The plugin is chainable...
-$("iframe").iframeFitContent().each(function(){ alert('do somthing else') });
+`$("iframe").iframeFitContent().each(function(){ alert('do somthing else') });`
 
 For example usage view examples/demo.html
 
