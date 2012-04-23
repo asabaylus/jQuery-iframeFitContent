@@ -26,7 +26,7 @@ Usage
 // apply the height fix
 $("iframe").iframeFitContent();
 
-The resize may now be applied to height, width or both. Both is the default
+// The resize may now be applied to height, width or both. Both is the default
 $("iframe").iframeFitContent({ resize : 'height' });
 $("iframe").iframeFitContent({ resize : 'width' });
 $("iframe").iframeFitContent({ resize : 'both' });
